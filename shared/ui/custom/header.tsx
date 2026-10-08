@@ -1,6 +1,5 @@
 "use client";
 
-import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type React from "react";
 import { Wrapper } from "./wrapper";
@@ -24,7 +23,7 @@ const Header: React.FC<Props> = ({ title, hasBackButton = false, link }) => {
       <Wrapper className="flex items-center justify-between py-3">
         {hasBackButton && (
           <button type="button" onClick={handleClick}>
-            <ChevronLeft />
+            {/* <ChevronLeft /> */}
           </button>
         )}
         <h1 className="flex-1 text-center text-lg tracking-wide font-semibold">{title}</h1>
