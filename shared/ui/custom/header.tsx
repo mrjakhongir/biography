@@ -3,7 +3,6 @@
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type React from "react";
-import { useNavigationStore } from "@/shared/store/use-navigation-store";
 import { Wrapper } from "./wrapper";
 
 type Props = {
@@ -14,10 +13,8 @@ type Props = {
 
 const Header: React.FC<Props> = ({ title, hasBackButton = false, link }) => {
   const router = useRouter();
-  const { clearBackLink } = useNavigationStore();
 
   const handleClick = () => {
-    clearBackLink();
     if (link) return router.push(link);
     router.back();
   };
