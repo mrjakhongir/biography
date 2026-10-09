@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Inter } from "next/font/google";
-import TelegramStartRedirect from "@/features/telegram-start-redirect/ui/telegram-start-redirect";
 import { cn } from "@/shared/lib/utils";
-import { BottomNavigation } from "@/shared/ui/custom";
 import Provideres from "./(providers)";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -22,8 +20,6 @@ export default function RootLayout({
     <html lang="en" className={cn("font-sans", inter.variable)}>
       <body className="min-h-full flex flex-col">
         <Provideres>{children}</Provideres>
-        <BottomNavigation />
-        <TelegramStartRedirect />
       </body>
     </html>
   );
