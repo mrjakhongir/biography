@@ -16,7 +16,6 @@ export async function POST(request: Request) {
       {
         telegram_id: telegramId,
         first_name: process.env.MOCK_FIRST_NAME ?? "Dev",
-        last_name: process.env.MOCK_LAST_NAME,
         username: process.env.MOCK_USERNAME ?? "dev_user",
       },
       {

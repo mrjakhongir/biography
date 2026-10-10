@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+const phoneNumberSchema = z.string().regex(/^\+998 \(\d{2}\) \d{3} \d{2} \d{2}$/, "Telefon raqamini to‘liq kiriting");
+
 export const relativeSchema = z.object({
   relation: z.string().min(1, "Qarindoshlik turini tanlang"),
   fullname: z.string().trim().min(1, "F.I.Sh. kiritilishi shart"),
@@ -54,6 +56,10 @@ export const createInfoFormSchema = z.object({
     .refine((relatives) => relatives.some((relative) => relative.relation === "mother"), {
       message: "Ona ma'lumotlari kiritilishi shart",
     }),
+
+  studentPhone: phoneNumberSchema,
+  fatherPhone: phoneNumberSchema,
+  motherPhone: phoneNumberSchema,
 });
 
 export type InfoFormValues = z.infer<typeof createInfoFormSchema>;

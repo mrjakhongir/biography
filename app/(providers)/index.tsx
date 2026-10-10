@@ -13,13 +13,13 @@ type Properties = {
 const Provideres: React.FC<Properties> = ({ children }) => {
   return (
     <QueryProvider>
-      {/* <TelegramAuthGate> */}
-      <Suspense fallback={<LoaderCenter className="text-primary size-8" />}>
-        <NuqsAdapter>{children}</NuqsAdapter>
-      </Suspense>
+      <TelegramAuthGate>
+        <Suspense fallback={<LoaderCenter className="text-primary size-8" />}>
+          <NuqsAdapter>{children}</NuqsAdapter>
+        </Suspense>
 
-      <Toaster position="top-center" duration={2000} />
-      {/* </TelegramAuthGate> */}
+        <Toaster position="top-center" duration={2000} />
+      </TelegramAuthGate>
     </QueryProvider>
   );
 };

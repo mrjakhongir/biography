@@ -2,7 +2,7 @@ export const CREATE_INFO_DEFAULT_VALUES = {
   fullname: "",
   birthdate: "",
   birthplace: "",
-  nationality: "",
+  nationality: "O'zbek",
   hasJoinedParty: "",
 
   education: "medium",
@@ -11,4 +11,7 @@ export const CREATE_INFO_DEFAULT_VALUES = {
   group: "",
 
   relatives: [],
+  studentPhone: "",
+  fatherPhone: "",
+  motherPhone: "",
 };

@@ -5,13 +5,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { type FieldPath, useForm } from "react-hook-form";
-
+import { toast } from "sonner";
 import { Button } from "@/shared/ui/button";
 import { BottomActionWrapper, SectionWrapper, Wrapper } from "@/shared/ui/custom";
 import { Spinner } from "@/shared/ui/spinner";
-
 import { CREATE_INFO_DEFAULT_VALUES } from "../model/default-values";
 import { createInfoFormSchema, type InfoFormValues } from "../model/schema";
+import ContactNumbers from "./contact-numbers";
 import EducationalInfo from "./education-info";
 import PersonalInfo from "./personal-info";
 import RelativesInfo from "./relatives-info";
@@ -26,6 +26,9 @@ const STEPS = [
   {
     title: "Qarindoshlar ma'lumotlari",
   },
+  {
+    title: "Telefon raqamlari",
+  },
 ] as const;
 
 // Validate only the fields belonging to the current step.
@@ -33,6 +36,7 @@ const STEP_FIELDS: FieldPath<InfoFormValues>[][] = [
   ["fullname", "birthdate", "birthplace", "nationality", "hasJoinedParty"],
   ["education", "graduatedOrganisation", "faculty", "group"],
   ["relatives"],
+  ["studentPhone", "fatherPhone", "motherPhone"],
 ];
 
 const slideVariants = {
@@ -57,10 +61,10 @@ export const CreatePersonalInfo = () => {
   const form = useForm<InfoFormValues>({
     resolver: zodResolver(createInfoFormSchema),
     defaultValues: CREATE_INFO_DEFAULT_VALUES,
-    mode: "onChange",
+    mode: "onSubmit",
+    reValidateMode: "onChange",
     shouldUnregister: false,
   });
-
   const { isSubmitting } = form.formState;
 
   const onSubmit = (data: InfoFormValues) => {
@@ -70,7 +74,10 @@ export const CreatePersonalInfo = () => {
   const nextStep = async () => {
     // const isValid = await form.trigger(STEP_FIELDS[step]);
 
-    // if (!isValid) return;
+    // if (!isValid) {
+    //   toast.error(form.formState.errors[STEP_FIELDS[step]]?.root?.message || "Ma'lumotlarni to'liq kiriting");
+    //   return;
+    // }
 
     setDirection(1);
     setStep((current) => Math.min(current + 1, STEPS.length - 1));
@@ -83,6 +90,7 @@ export const CreatePersonalInfo = () => {
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log("me");
 
     if (isSubmitting) return;
 
@@ -157,7 +165,7 @@ export const CreatePersonalInfo = () => {
               })}
             </div>
 
-            {/* <h2 className="text-xl font-semibold">{STEPS[step].title}</h2> */}
+            <h2 className="text-xl font-semibold text-center mt-4 text-slate-800">{STEPS[step].title}</h2>
           </div>
         </Wrapper>
       </SectionWrapper>
@@ -183,6 +191,8 @@ export const CreatePersonalInfo = () => {
               {step === 1 && <EducationalInfo form={form} />}
 
               {step === 2 && <RelativesInfo form={form} />}
+
+              {step === 3 && <ContactNumbers form={form} />}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -201,13 +211,17 @@ export const CreatePersonalInfo = () => {
               Oldingi
             </Button>
 
-            {step < STEPS.length - 1 ? (
+            {step !== STEPS.length - 1 ? (
               <Button type="button" className="h-12 flex-1 text-base" onClick={nextStep} disabled={isSubmitting}>
                 Keyingi
                 <ChevronRight size={18} />
               </Button>
             ) : (
-              <Button type="submit" className="h-12 flex-1 text-base" disabled={isSubmitting}>
+              <Button
+                type="submit"
+                className="h-12 flex-1 text-base"
+                disabled={isSubmitting || !form.formState.isValid}
+              >
                 {isSubmitting ? (
                   <Spinner />
                 ) : (

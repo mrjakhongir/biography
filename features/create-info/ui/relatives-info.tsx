@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus, Trash2 } from "lucide-react";
+import { Info, Plus, Trash2 } from "lucide-react";
 import { useRef } from "react";
 import { type UseFormReturn, useFieldArray } from "react-hook-form";
 import { Button } from "@/shared/ui/button";
@@ -195,6 +195,19 @@ const RelativesInfo = ({ form }: Props) => {
               Qarindosh qo‘shish
             </Button>
           </div>
+
+          {fields.length < 2 && (
+            <div className="flex items-start gap-3 rounded-lg border border-blue-200 bg-blue-50 p-4 text-blue-900">
+              <Info className="mt-0.5 size-5 shrink-0 text-blue-600" />
+
+              <div className="space-y-1">
+                <p className="text-sm font-semibold">Zaruriy ma&apos;lumotlar</p>
+                <p className="text-sm leading-relaxed text-blue-800">
+                  Davom etishdan oldin ota va ona haqidagi ma’lumotlarni kiriting.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </Wrapper>
     </SectionWrapper>

@@ -17,7 +17,7 @@ const PhoneNumberInput = forwardRef<HTMLInputElement, Properties>(({ value, onCh
   const id = useId();
   return (
     <div className="w-full">
-      <InputGroup className="bg-white">
+      <InputGroup>
         <InputGroupInput
           id={id}
           type="text"
