@@ -16,7 +16,7 @@ export function registerStartHandler(bot: Telegraf) {
     const welcomeText = [
       `<b>Ассалому алайкум, ${escapeHtml(firstName)}!</b>`,
       "",
-      "Testlarga oson tayyorlaning",
+      "Ma'lumotlaringizni oson tayyorlang",
       "",
       `Янгиликлар ва эълонлар: <a href="${escapeHtml(channelUrl)}">расмий каналимиз</a>`,
       "",
@@ -44,7 +44,6 @@ export function registerStartHandler(bot: Telegraf) {
     await saveTelegramUser({
       telegramId: String(context.from.id),
       firstName: context.from.first_name,
-      lastName: context.from.last_name,
       username: context.from.username,
     });
   });
