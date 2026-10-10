@@ -22,9 +22,7 @@ export async function POST(request: Request) {
         {
           telegram_id: telegramUser.id,
           first_name: telegramUser.first_name,
-          last_name: telegramUser.last_name,
           username: telegramUser.username,
-          photo_url: telegramUser.photo_url,
         },
         {
           onConflict: "telegram_id",
