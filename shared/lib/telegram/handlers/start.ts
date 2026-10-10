@@ -31,7 +31,7 @@ export function registerStartHandler(bot: Telegraf) {
         inline_keyboard: [
           [
             {
-              text: "Test yechish",
+              text: "Yaratish",
               web_app: {
                 url: miniAppUrl,
               },

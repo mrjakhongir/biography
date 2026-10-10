@@ -11,7 +11,6 @@ export async function POST(request: Request) {
     }
 
     const update = await request.json();
-    console.log(update);
 
     await bot.handleUpdate(update);
 
