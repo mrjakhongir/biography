@@ -3,7 +3,7 @@ export const CREATE_INFO_DEFAULT_VALUES = {
   birthdate: "",
   birthplace: "",
   nationality: "O'zbek",
-  hasJoinedParty: "",
+  hasJoinedParty: "false",
 
   education: "medium",
   graduatedOrganisation: "",

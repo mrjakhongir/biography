@@ -1,6 +1,8 @@
 import { z } from "zod";
 
-const phoneNumberSchema = z.string().regex(/^\+998 \(\d{2}\) \d{3} \d{2} \d{2}$/, "Telefon raqamini to‘liq kiriting");
+export const phoneNumberSchema = z
+  .string()
+  .regex(/^\+998 \(\d{2}\) \d{3} \d{2} \d{2}$/, "Telefon raqamini to‘liq kiriting");
 
 export const relativeSchema = z.object({
   relation: z.string().min(1, "Qarindoshlik turini tanlang"),
@@ -31,15 +33,15 @@ export const birthdateSchema = z
     const birthdate = new Date(year, month - 1, day);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const minimumBirthdate = new Date(today.getFullYear() - 16, today.getMonth(), today.getDate());
+    const minimumBirthdate = new Date(today.getFullYear() - 14, today.getMonth(), today.getDate());
     return birthdate <= minimumBirthdate;
-  }, "You must be at least 16 years old");
+  }, "You must be at least 14 years old");
 
 export const createInfoFormSchema = z.object({
-  fullname: z.string().min(5),
+  fullname: z.string().min(5, "F.I.O. kiritilishi shart"),
   birthdate: birthdateSchema,
-  birthplace: z.string().min(2),
-  nationality: z.string().min(2),
+  birthplace: z.string().min(2, "Tug'ilgan tumaningizni kiriting"),
+  nationality: z.string().min(2, "Millatingizni kiriting"),
   hasJoinedParty: z.string(),
 
   education: z.string().min(2),

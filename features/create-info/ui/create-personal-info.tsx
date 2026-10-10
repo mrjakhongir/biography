@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { Button } from "@/shared/ui/button";
 import { BottomActionWrapper, SectionWrapper, Wrapper } from "@/shared/ui/custom";
 import { Spinner } from "@/shared/ui/spinner";
+import { useCreatePersonalInfo } from "../api/use-create-personal-info";
 import { CREATE_INFO_DEFAULT_VALUES } from "../model/default-values";
 import { createInfoFormSchema, type InfoFormValues } from "../model/schema";
 import ContactNumbers from "./contact-numbers";
@@ -58,6 +59,8 @@ export const CreatePersonalInfo = () => {
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState(1);
 
+  const { mutateAsync: createUserInfo } = useCreatePersonalInfo();
+
   const form = useForm<InfoFormValues>({
     resolver: zodResolver(createInfoFormSchema),
     defaultValues: CREATE_INFO_DEFAULT_VALUES,
@@ -67,17 +70,29 @@ export const CreatePersonalInfo = () => {
   });
   const { isSubmitting } = form.formState;
 
-  const onSubmit = (data: InfoFormValues) => {
+  const onSubmit = async (data: InfoFormValues) => {
     console.log(data);
+
+    try {
+      await createUserInfo(data);
+
+      toast.success("Ma’lumotlar muvaffaqiyatli saqlandi.");
+      form.reset();
+      setStep(0);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Ma’lumotlarni saqlashda xatolik yuz berdi.");
+    }
   };
 
   const nextStep = async () => {
-    // const isValid = await form.trigger(STEP_FIELDS[step]);
+    const isValid = await form.trigger(STEP_FIELDS[step]);
 
-    // if (!isValid) {
-    //   toast.error(form.formState.errors[STEP_FIELDS[step]]?.root?.message || "Ma'lumotlarni to'liq kiriting");
-    //   return;
-    // }
+    const stepError = STEP_FIELDS[step].map((field) => form.getFieldState(field).error?.message).find(Boolean);
+
+    if (!isValid) {
+      toast.error(stepError || "Ma'lumotlarni to'liq kiriting");
+      return;
+    }
 
     setDirection(1);
     setStep((current) => Math.min(current + 1, STEPS.length - 1));
@@ -90,7 +105,6 @@ export const CreatePersonalInfo = () => {
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("me");
 
     if (isSubmitting) return;
 
@@ -104,10 +118,12 @@ export const CreatePersonalInfo = () => {
 
   return (
     <div className="space-y-5">
-      <SectionWrapper>
+      <SectionWrapper className="rounded-t-none">
         <Wrapper>
           {/* Step navigator */}
           <div>
+            <h2 className="text-xl font-semibold text-center mb-4 text-slate-800">{STEPS[step].title}</h2>
+
             <div className="flex items-center">
               {STEPS.map((item, index) => {
                 const isCompleted = index < step;
@@ -164,8 +180,6 @@ export const CreatePersonalInfo = () => {
                 );
               })}
             </div>
-
-            <h2 className="text-xl font-semibold text-center mt-4 text-slate-800">{STEPS[step].title}</h2>
           </div>
         </Wrapper>
       </SectionWrapper>
