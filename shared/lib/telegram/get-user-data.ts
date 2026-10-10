@@ -3,9 +3,7 @@ import { validateInitData } from "./validate";
 export type TelegramUser = {
   id: number;
   first_name: string;
-  last_name?: string;
   username?: string;
-  photo_url?: string;
 };
 
 export function getUserData(initData: string): TelegramUser {
