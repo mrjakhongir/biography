@@ -16,18 +16,18 @@ type Props = {
 };
 
 const RELATIONS = [
-  { value: "father", label: "Otasi" },
-  { value: "mother", label: "Onasi" },
-  { value: "akasi", label: "Akasi" },
-  { value: "ukasi", label: "Ukasi" },
-  { value: "opasi", label: "Opasi" },
-  { value: "singlisi", label: "Singlisi" },
-  { value: "wife", label: "Xotini" },
-  { value: "husband", label: "Eri" },
-  { value: "father_in_law", label: "Qaynotasi" },
-  { value: "mother_in_law", label: "Qaynonasi" },
-  { value: "son", label: "O'g'li" },
-  { value: "daughter", label: "Qizi" },
+  { value: "Otasi", label: "Otasi" },
+  { value: "Onasi", label: "Onasi" },
+  { value: "Akasi", label: "Akasi" },
+  { value: "Ukasi", label: "Ukasi" },
+  { value: "Opasi", label: "Opasi" },
+  { value: "Singlisi", label: "Singlisi" },
+  { value: "Xotini", label: "Xotini" },
+  { value: "Eri", label: "Eri" },
+  { value: "Qaynotasi", label: "Qaynotasi" },
+  { value: "Qaynonasi", label: "Qaynonasi" },
+  { value: "O'g'li", label: "O'g'li" },
+  { value: "Qizi", label: "Qizi" },
 ] as const;
 
 const RelativesInfo = ({ form }: Props) => {
