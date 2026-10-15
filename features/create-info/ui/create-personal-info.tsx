@@ -88,7 +88,7 @@ export const CreatePersonalInfo = () => {
     const isValid = await form.trigger(STEP_FIELDS[step]);
 
     const stepError = STEP_FIELDS[step].map((field) => form.getFieldState(field).error?.message).find(Boolean);
-
+    console.log(form.formState.errors);
     if (!isValid) {
       toast.error(stepError || "Ma'lumotlarni to'liq kiriting");
       return;

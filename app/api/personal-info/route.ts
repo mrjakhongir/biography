@@ -49,6 +49,7 @@ export async function POST(request: Request) {
       has_joined_party: values.hasJoinedParty === "true",
       education: values.education,
       graduated_organisation: values.graduatedOrganisation.trim() || null,
+      graduated_organisation_period: values.graduatedOrganisationPeriod,
       faculty: values.faculty.trim(),
       group: values.group.trim(),
       relatives: values.relatives,

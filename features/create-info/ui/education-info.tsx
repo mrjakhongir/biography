@@ -47,7 +47,7 @@ const EducationalInfo: React.FC<Props> = ({ form }) => {
                 <Input
                   value={field.value}
                   onChange={field.onChange}
-                  placeholder="412-MIB"
+                  placeholder="33-dav-26"
                   aria-invalid={!!form.formState.errors.group}
                 />
               )}
@@ -109,7 +109,26 @@ const EducationalInfo: React.FC<Props> = ({ form }) => {
                 <Input
                   value={field.value}
                   onChange={field.onChange}
-                  placeholder="Buxoro shahar, 138-maktab"
+                  placeholder="Buxoro viloyati, Shofirkon tumani 38-maktab"
+                  aria-invalid={!!form.formState.errors.graduatedOrganisation}
+                />
+              )}
+            />
+          </Field>
+
+          <Field>
+            <FieldLabel>
+              Tamomlangan muassasada o&apos;qish davri <span className="text-red-500">*</span>
+            </FieldLabel>
+
+            <Controller
+              control={form.control}
+              name="graduatedOrganisationPeriod"
+              render={({ field }) => (
+                <Input
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder="2015-yil 2026-yil"
                   aria-invalid={!!form.formState.errors.graduatedOrganisation}
                 />
               )}

@@ -46,16 +46,17 @@ export const createInfoFormSchema = z.object({
 
   education: z.string().min(2),
   graduatedOrganisation: z.string(),
+  graduatedOrganisationPeriod: z.string(),
   faculty: z.string().min(2),
   group: z.string().min(2),
 
   relatives: z
     .array(relativeSchema)
     .min(2, "Ota va ona ma'lumotlari kiritilishi shart")
-    .refine((relatives) => relatives.some((relative) => relative.relation === "father"), {
+    .refine((relatives) => relatives.some((relative) => relative.relation === "Otasi"), {
       message: "Ota ma'lumotlari kiritilishi shart",
     })
-    .refine((relatives) => relatives.some((relative) => relative.relation === "mother"), {
+    .refine((relatives) => relatives.some((relative) => relative.relation === "Onasi"), {
       message: "Ona ma'lumotlari kiritilishi shart",
     }),
 

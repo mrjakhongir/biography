@@ -134,13 +134,13 @@ const RelativesInfo = ({ form }: Props) => {
                   {/* Region / city */}
                   <Field>
                     <FieldLabel>
-                      Viloyat yoki shahar
+                      Viloyat & shahar/tuman
                       <span className="text-red-500"> *</span>
                     </FieldLabel>
 
                     <Input
                       {...register(`relatives.${index}.region`)}
-                      placeholder="Toshkent shahri"
+                      placeholder="Buxoro viloyati, Shofirkon tumani"
                       aria-invalid={!!errors?.region}
                     />
                   </Field>
@@ -162,13 +162,13 @@ const RelativesInfo = ({ form }: Props) => {
                   {/* Current address */}
                   <Field className="sm:col-span-2">
                     <FieldLabel>
-                      Hozirgi yashash manzili
+                      Hozirgi yashash manzili (viloyat, tuman, mahalla/qishloq)
                       <span className="text-red-500"> *</span>
                     </FieldLabel>
 
                     <Textarea
                       {...register(`relatives.${index}.address`)}
-                      placeholder="Viloyat, tuman, ko‘cha, uy"
+                      placeholder="Buxoro viloyati, Shofirkon tumani, Zarchabek MFY"
                       aria-invalid={!!errors?.address}
                     />
                   </Field>
