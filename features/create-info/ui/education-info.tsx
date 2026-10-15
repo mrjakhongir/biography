@@ -71,9 +71,9 @@ const EducationalInfo: React.FC<Props> = ({ form }) => {
                   aria-invalid={fieldState.invalid}
                 >
                   {[
-                    { label: "O‘rta", value: "medium" },
-                    { label: "O‘rta maxsus", value: "medium-special" },
-                    { label: "Oliy", value: "high" },
+                    { label: "O‘rta", value: "O'rta" },
+                    { label: "O‘rta maxsus", value: "O'rta maxsus" },
+                    { label: "Oliy", value: "Oliy" },
                   ].map((option) => {
                     const isSelected = field.value === option.value;
 
