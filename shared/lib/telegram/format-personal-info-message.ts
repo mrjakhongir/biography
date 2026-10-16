@@ -27,7 +27,6 @@ export function formatPersonalInfoMessage(values: InfoFormValues): string {
     `Millati: ${escapeHtml(values.nationality)}\n` +
     `Partiyaga a’zoligi: ${values.hasJoinedParty === "true" ? "Ha" : "Yo‘q"}\n\n` +
     `<b>Ta’lim</b>\n` +
-    `Ma’lumoti: ${escapeHtml(values.education)}\n` +
     `Ta’lim muassasasi: ${escapeHtml(values.graduatedOrganisation || "Ko‘rsatilmagan")}\n` +
     `Fakultet: ${escapeHtml(values.faculty)}\n` +
     `Guruh: ${escapeHtml(values.group)}\n\n` +
