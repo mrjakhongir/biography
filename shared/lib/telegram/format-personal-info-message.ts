@@ -7,8 +7,7 @@ function escapeHtml(value: string): string {
 export function formatPersonalInfoMessage(values: InfoFormValues): string {
   const relatives = values.relatives
     .map(
-      (relative, index) =>
-        `<b>Qarindosh ${index + 1}</b>\n` +
+      (relative) =>
         `Qarindoshlik: ${escapeHtml(relative.relation)}\n` +
         `F.I.Sh.: ${escapeHtml(relative.fullname)}\n` +
         `Tug‘ilgan yili: ${escapeHtml(relative.birthYear)}\n` +
@@ -30,6 +29,9 @@ export function formatPersonalInfoMessage(values: InfoFormValues): string {
     `Ta’lim muassasasi: ${escapeHtml(values.graduatedOrganisation || "Ko‘rsatilmagan")}\n` +
     `Fakultet: ${escapeHtml(values.faculty)}\n` +
     `Guruh: ${escapeHtml(values.group)}\n\n` +
+    `Tillar: ${escapeHtml(values.languages)}\n\n` +
+    `O'qishga kirgan yili: ${escapeHtml(values.startYear)}\n\n` +
+    `Yo'nalish: ${escapeHtml(values.speciality)}\n\n` +
     `<b>Qarindoshlar</b>\n${relatives || "Ko‘rsatilmagan"}\n\n` +
     `<b>Telefon raqamlari</b>\n` +
     `Talaba: ${escapeHtml(values.studentPhone)}\n` +
