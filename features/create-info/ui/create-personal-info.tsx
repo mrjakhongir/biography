@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import WebApp from "@twa-dev/sdk";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
@@ -35,7 +36,7 @@ const STEPS = [
 // Validate only the fields belonging to the current step.
 const STEP_FIELDS: FieldPath<InfoFormValues>[][] = [
   ["fullname", "birthdate", "birthplace", "nationality", "hasJoinedParty"],
-  ["education", "graduatedOrganisation", "faculty", "group"],
+  ["graduatedOrganisation", "faculty", "group", "speciality", "languages", "graduatedOrganisationPeriod", "startYear"],
   ["relatives"],
   ["studentPhone", "fatherPhone", "motherPhone"],
 ];
@@ -79,6 +80,7 @@ export const CreatePersonalInfo = () => {
       toast.success("Ma’lumotlar muvaffaqiyatli saqlandi.");
       form.reset();
       setStep(0);
+      WebApp.close();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Ma’lumotlarni saqlashda xatolik yuz berdi.");
     }

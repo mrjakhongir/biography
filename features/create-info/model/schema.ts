@@ -44,11 +44,13 @@ export const createInfoFormSchema = z.object({
   nationality: z.string().min(2, "Millatingizni kiriting"),
   hasJoinedParty: z.string(),
 
-  education: z.string().min(2),
   graduatedOrganisation: z.string(),
   graduatedOrganisationPeriod: z.string(),
+  startYear: z.string().min(4),
   faculty: z.string().min(2),
   group: z.string().min(2),
+  speciality: z.string().min(2),
+  languages: z.string().min(2),
 
   relatives: z
     .array(relativeSchema)

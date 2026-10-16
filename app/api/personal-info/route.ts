@@ -12,9 +12,7 @@ const createPersonalInfoSchema = createInfoFormSchema.extend({
 export async function POST(request: Request) {
   const session = await getSessionPayload();
 
-  if (!session) {
-    return NextResponse.json({ error: "Avtorizatsiyadan o'ting." }, { status: 401 });
-  }
+  if (!session) return NextResponse.json({ error: "Avtorizatsiyadan o'ting." }, { status: 401 });
 
   let body: unknown;
 
@@ -47,11 +45,13 @@ export async function POST(request: Request) {
       birthplace: values.birthplace.trim(),
       nationality: values.nationality.trim(),
       has_joined_party: values.hasJoinedParty === "true",
-      education: values.education,
       graduated_organisation: values.graduatedOrganisation.trim() || null,
       graduated_organisation_period: values.graduatedOrganisationPeriod,
       faculty: values.faculty.trim(),
       group: values.group.trim(),
+      speciality: values.speciality.trim(),
+      languages: values.languages.trim(),
+      start_year: values.startYear,
       relatives: values.relatives,
       student_phone: values.studentPhone,
       father_phone: values.fatherPhone,
