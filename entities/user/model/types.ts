@@ -8,6 +8,7 @@ export interface IUserDTO {
 export interface IUser {
   id?: string;
   telegramId: string;
+  chatId?: string;
   firstName: string;
   username?: string;
 }

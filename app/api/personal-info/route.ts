@@ -3,7 +3,7 @@ import { z } from "zod";
 import { createInfoFormSchema } from "@/features/create-info/model/schema";
 import { supabaseAdmin } from "@/shared/lib/supabase/admin";
 import { getSessionPayload } from "@/shared/lib/telegram/get-current-user";
-import { sendPersonalInfoMessage } from "@/shared/lib/telegram/send-personal-info-message";
+import { notifyCustomer } from "@/shared/lib/telegram/notify-user";
 
 const createPersonalInfoSchema = createInfoFormSchema.extend({
   hasJoinedParty: z.enum(["true", "false"]),
@@ -67,7 +67,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    await sendPersonalInfoMessage(session.userId, values);
+    await notifyCustomer(session.userId, values);
   } catch (error) {
     console.error("Telegram notification failed:", error);
   }

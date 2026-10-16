@@ -9,6 +9,7 @@ export async function saveTelegramUser(input: IUser) {
         telegram_id: input.telegramId,
         first_name: input.firstName,
         username: input.username,
+        chat_id: input.chatId,
       },
       {
         onConflict: "telegram_id",

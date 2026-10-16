@@ -43,6 +43,7 @@ export function registerStartHandler(bot: Telegraf) {
 
     await saveTelegramUser({
       telegramId: String(context.from.id),
+      chatId: String(context.chat.id),
       firstName: context.from.first_name,
       username: context.from.username,
     });
