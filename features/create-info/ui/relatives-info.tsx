@@ -9,7 +9,7 @@ import { Field, FieldLabel } from "@/shared/ui/field";
 import { Input } from "@/shared/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select";
 import { Textarea } from "@/shared/ui/textarea";
-import type { InfoFormValues } from "../model/schema";
+import { type InfoFormValues, relativeSchema } from "../model/schema";
 
 type Props = {
   form: UseFormReturn<InfoFormValues>;
@@ -37,12 +37,34 @@ const RelativesInfo = ({ form }: Props) => {
     name: "relatives",
   });
 
-  const addButtonRef = useRef<HTMLButtonElement>(null);
+  const addButtonRef = useRef<HTMLDivElement>(null);
 
   const addRelative = async () => {
-    const isValid = await trigger("relatives");
+    const relatives = getValues("relatives");
 
-    // if (!isValid) return;
+    // Validate each existing relative only.
+    const results = relatives.map((relative) => relativeSchema.safeParse(relative));
+
+    const invalidIndexes = results
+      .map((result, index) => (!result.success ? index : -1))
+      .filter((index) => index !== -1);
+
+    if (invalidIndexes.length > 0) {
+      const fieldsToValidate = invalidIndexes.flatMap(
+        (index) =>
+          [
+            `relatives.${index}.relation`,
+            `relatives.${index}.fullname`,
+            `relatives.${index}.birthYear`,
+            `relatives.${index}.region`,
+            `relatives.${index}.workplace`,
+            `relatives.${index}.address`,
+          ] as const,
+      );
+
+      await trigger(fieldsToValidate);
+      return;
+    }
 
     append({
       relation: "",
@@ -75,10 +97,16 @@ const RelativesInfo = ({ form }: Props) => {
                 <div className="grid gap-4 sm:grid-cols-2">
                   {/* Relationship */}
                   <Field>
-                    <FieldLabel>
-                      Qarindoshlik turi
-                      <span className="text-red-500"> *</span>
-                    </FieldLabel>
+                    <div className="flex justify-between items-center">
+                      <FieldLabel>
+                        Qarindoshlik turi
+                        <span className="text-red-500"> *</span>
+                      </FieldLabel>
+
+                      <Button size="lg" type="button" variant="destructive" onClick={() => remove(index)}>
+                        <Trash2 className="text-destructive" />
+                      </Button>
+                    </div>
 
                     <Select
                       value={relation}
@@ -130,6 +158,8 @@ const RelativesInfo = ({ form }: Props) => {
                     />
                   </Field>
 
+                  <div ref={addButtonRef}></div>
+
                   {/* Region / city */}
                   <Field>
                     <FieldLabel>
@@ -172,24 +202,12 @@ const RelativesInfo = ({ form }: Props) => {
                     />
                   </Field>
                 </div>
-
-                <Button size="lg" type="button" variant="destructive" className="w-full" onClick={() => remove(index)}>
-                  O&apos;chirish
-                  <Trash2 className="size-4 text-destructive" />
-                </Button>
               </section>
             );
           })}
 
           <div className="flex justify-center pt-2">
-            <Button
-              ref={addButtonRef}
-              type="button"
-              variant="outline"
-              className="w-full"
-              size="lg"
-              onClick={addRelative}
-            >
+            <Button type="button" variant="outline" className="w-full" size="lg" onClick={addRelative}>
               <Plus className="mr-2 size-4" />
               Qarindosh qo‘shish
             </Button>

@@ -2,6 +2,7 @@ import { Controller, type UseFormReturn } from "react-hook-form";
 import { SectionWrapper, Wrapper } from "@/shared/ui/custom";
 import { Field, FieldGroup, FieldLabel } from "@/shared/ui/field";
 import { Input } from "@/shared/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select";
 import type { InfoFormValues } from "../model/schema";
 
 type Props = {
@@ -36,25 +37,6 @@ const EducationalInfo: React.FC<Props> = ({ form }) => {
               />
             </Field>
 
-            {/* faculty */}
-            <Field>
-              <FieldLabel>
-                Fakultet <span className="text-red-500">*</span>
-              </FieldLabel>
-              <Controller
-                control={form.control}
-                name="faculty"
-                render={({ field }) => (
-                  <Input
-                    value={field.value}
-                    onChange={field.onChange}
-                    placeholder="Tibbiyot"
-                    aria-invalid={!!form.formState.errors.faculty}
-                  />
-                )}
-              />
-            </Field>
-
             {/* group */}
             <Field>
               <FieldLabel>
@@ -74,27 +56,57 @@ const EducationalInfo: React.FC<Props> = ({ form }) => {
                 )}
               />
             </Field>
-
-            {/* speciality */}
-            <Field>
-              <FieldLabel>
-                Yo&apos;nalish <span className="text-red-500">*</span>
-              </FieldLabel>
-
-              <Controller
-                control={form.control}
-                name="speciality"
-                render={({ field }) => (
-                  <Input
-                    value={field.value}
-                    onChange={field.onChange}
-                    placeholder="Stomatologiya"
-                    aria-invalid={!!form.formState.errors.speciality}
-                  />
-                )}
-              />
-            </Field>
           </div>
+
+          {/* faculty */}
+          <Field>
+            <FieldLabel>
+              Fakultet <span className="text-red-500">*</span>
+            </FieldLabel>
+            <Controller
+              control={form.control}
+              name="faculty"
+              render={({ field }) => (
+                <Select
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  aria-invalid={!!form.formState.errors.faculty}
+                >
+                  <SelectTrigger aria-invalid={!!form.formState.errors.faculty}>
+                    <SelectValue placeholder="Fakultet tanlang" />
+                  </SelectTrigger>
+
+                  <SelectContent>
+                    {["Iqtisodiyot va pedagogika", "Tibbiyot", "Ijtimoiy fanlar va texnika"].map((option) => (
+                      <SelectItem key={option} value={option}>
+                        {option}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
+          </Field>
+
+          {/* speciality */}
+          <Field>
+            <FieldLabel>
+              Yo&apos;nalish <span className="text-red-500">*</span>
+            </FieldLabel>
+
+            <Controller
+              control={form.control}
+              name="speciality"
+              render={({ field }) => (
+                <Input
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder="Stomatologiya"
+                  aria-invalid={!!form.formState.errors.speciality}
+                />
+              )}
+            />
+          </Field>
 
           {/* Languages */}
           <Field>

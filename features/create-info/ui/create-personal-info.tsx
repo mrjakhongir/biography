@@ -65,15 +65,13 @@ export const CreatePersonalInfo = () => {
   const form = useForm<InfoFormValues>({
     resolver: zodResolver(createInfoFormSchema),
     defaultValues: CREATE_INFO_DEFAULT_VALUES,
-    mode: "onSubmit",
+    mode: "onChange",
     reValidateMode: "onChange",
     shouldUnregister: false,
   });
   const { isSubmitting } = form.formState;
 
   const onSubmit = async (data: InfoFormValues) => {
-    console.log(data);
-
     try {
       await createUserInfo(data);
 
@@ -120,7 +118,7 @@ export const CreatePersonalInfo = () => {
 
   return (
     <div className="space-y-5">
-      <SectionWrapper className="rounded-t-none">
+      <SectionWrapper className="rounded-t-none sticky top-0">
         <Wrapper>
           {/* Step navigator */}
           <div>
