@@ -23,8 +23,6 @@ export async function sendPersonalInfoToStaff(values: InfoFormValues, docBuffer:
   const telegramUsername = username?.trim() ? `@${escapeHtml(username.replace(/^@/, ""))}` : "Mavjud emas";
 
   const caption = [
-    "<b>Yangi ma'lumotnoma yaratildi</b>",
-    "",
     `<b>F.I.Sh.:</b> ${fullName}`,
     `<b>Fakultet:</b> ${faculty}`,
     `<b>Guruh:</b> ${group}`,
