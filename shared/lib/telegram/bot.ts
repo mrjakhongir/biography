@@ -11,6 +11,10 @@ export function createBot() {
 
   registerStartHandler(bot);
 
+  bot.command("getchatid", async (ctx) => {
+    await ctx.reply(`Chat ID: ${ctx.chat.id}`);
+  });
+
   bot.catch((error, context) => {
     console.error(error, context.update);
   });
