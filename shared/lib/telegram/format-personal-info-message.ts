@@ -37,7 +37,7 @@ export function formatPersonalInfoMessage(values: InfoFormValues): string {
     `Talaba: ${escapeHtml(values.studentPhone)}\n` +
     `Ota: ${escapeHtml(values.fatherPhone)}\n` +
     `Ona: ${escapeHtml(values.motherPhone)}\n\n` +
-    `📄 To‘liq faylni olish uchun <a href="https://t.me/Medoxu5">Admin Shahzod</a> ga bog‘laning.\n\n` +
-    `📄 To‘liq faylni olish uchun <a href="https://t.me/Oxu0811">Admin Feruz</a> ga bog‘laning`
+    `📄 To‘liq faylni olish uchun <a href="https://t.me/Medoxu5">5-Bino</a> ga bog‘laning.\n\n` +
+    `📄 To‘liq faylni olish uchun <a href="https://t.me/Oxu0811">Asosiy bino</a> ga bog‘laning`
   );
 }
