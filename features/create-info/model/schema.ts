@@ -18,9 +18,9 @@ export const birthdateSchema = z
     const birthdate = new Date(year, month - 1, day);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const minimumBirthdate = new Date(today.getFullYear() - 14, today.getMonth(), today.getDate());
+    const minimumBirthdate = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
     return birthdate <= minimumBirthdate;
-  }, "You must be at least 14 years old");
+  }, "You must be at least 1 years old");
 
 export const relativeSchema = z.object({
   relation: z.string().min(1, "Qarindoshlik turini tanlang"),
