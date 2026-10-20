@@ -4,21 +4,6 @@ export const phoneNumberSchema = z
   .string()
   .regex(/^\+998 \(\d{2}\) \d{3} \d{2} \d{2}$/, "Telefon raqamini to‘liq kiriting");
 
-export const relativeSchema = z.object({
-  relation: z.string().min(1, "Qarindoshlik turini tanlang"),
-  fullname: z.string().trim().min(1, "F.I.Sh. kiritilishi shart"),
-  birthYear: z
-    .string()
-    .regex(/^\d{4}$/, "Tug‘ilgan yilni 4 ta raqamda kiriting")
-    .refine((value) => {
-      const year = Number(value);
-      return year >= 1900 && year <= new Date().getFullYear();
-    }, "Tug‘ilgan yil noto‘g‘ri"),
-  region: z.string().trim().min(1, "Viloyat yoki shaharni kiriting"),
-  workplace: z.string().trim().min(1, "Ish yoki o‘qish joyini kiriting"),
-  address: z.string().trim().min(1, "Yashash manzilini kiriting"),
-});
-
 export const birthdateSchema = z
   .string()
   .min(1, "Date of birth is required")
@@ -36,6 +21,15 @@ export const birthdateSchema = z
     const minimumBirthdate = new Date(today.getFullYear() - 14, today.getMonth(), today.getDate());
     return birthdate <= minimumBirthdate;
   }, "You must be at least 14 years old");
+
+export const relativeSchema = z.object({
+  relation: z.string().min(1, "Qarindoshlik turini tanlang"),
+  fullname: z.string().trim().min(1, "F.I.Sh. kiritilishi shart"),
+  birthYear: birthdateSchema,
+  region: z.string().trim().min(1, "Viloyat yoki shaharni kiriting"),
+  workplace: z.string().trim().min(1, "Ish yoki o‘qish joyini kiriting"),
+  address: z.string().trim().min(1, "Yashash manzilini kiriting"),
+});
 
 export const createInfoFormSchema = z.object({
   fullname: z.string().min(5, "F.I.O. kiritilishi shart"),
