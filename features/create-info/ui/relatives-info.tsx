@@ -2,9 +2,10 @@
 
 import { Info, Plus, Trash2 } from "lucide-react";
 import { useRef } from "react";
-import { type UseFormReturn, useFieldArray } from "react-hook-form";
+import { Controller, type UseFormReturn, useFieldArray } from "react-hook-form";
 import { Button } from "@/shared/ui/button";
 import { SectionWrapper, Wrapper } from "@/shared/ui/custom";
+import DateInput from "@/shared/ui/custom/date-input";
 import { Field, FieldLabel } from "@/shared/ui/field";
 import { Input } from "@/shared/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select";
@@ -94,7 +95,7 @@ const RelativesInfo = ({ form }: Props) => {
 
             return (
               <section key={item.id} className="space-y-4 rounded-xl border p-4 sm:p-5">
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-5">
                   {/* Relationship */}
                   <Field>
                     <div className="flex justify-between items-center">
@@ -142,19 +143,23 @@ const RelativesInfo = ({ form }: Props) => {
                     />
                   </Field>
 
-                  {/* Birth year */}
+                  {/* Birthdate */}
                   <Field>
                     <FieldLabel>
-                      Tug‘ilgan yili
+                      Tug‘ilgan sana
                       <span className="text-red-500"> *</span>
                     </FieldLabel>
 
-                    <Input
-                      {...register(`relatives.${index}.birthYear`)}
-                      placeholder="1980"
-                      inputMode="numeric"
-                      maxLength={4}
-                      aria-invalid={!!errors?.birthYear}
+                    <Controller
+                      control={form.control}
+                      name={`relatives.${index}.birthYear`}
+                      render={({ field }) => (
+                        <DateInput
+                          value={field.value}
+                          onChange={field.onChange}
+                          error={form.formState.errors.relatives?.[index]?.birthYear}
+                        />
+                      )}
                     />
                   </Field>
 

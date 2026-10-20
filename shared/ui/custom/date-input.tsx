@@ -21,7 +21,7 @@ const DateInput = forwardRef<HTMLInputElement, Properties>(({ value, onChange, e
         <InputGroupInput
           id={id}
           type="text"
-          placeholder="08.05.2004"
+          placeholder="dd.mm.yyyy"
           value={value}
           onChange={(event) => onChange?.(event.target.value)}
           ref={(element) => {
