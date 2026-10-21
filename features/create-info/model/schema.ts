@@ -12,15 +12,7 @@ export const birthdateSchema = z
     const [day, month, year] = value.split(".").map(Number);
     const date = new Date(year, month - 1, day);
     return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day;
-  }, "Enter a valid date")
-  .refine((value) => {
-    const [day, month, year] = value.split(".").map(Number);
-    const birthdate = new Date(year, month - 1, day);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const minimumBirthdate = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
-    return birthdate <= minimumBirthdate;
-  }, "You must be at least 1 years old");
+  }, "Enter a valid date");
 
 export const relativeSchema = z.object({
   relation: z.string().min(1, "Qarindoshlik turini tanlang"),
