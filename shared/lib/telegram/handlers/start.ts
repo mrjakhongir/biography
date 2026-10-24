@@ -2,10 +2,9 @@ import type { Context, Telegraf } from "telegraf";
 import { saveTelegramUser } from "@/entities/user/lib/save-user";
 
 const channelUrl = "https://t.me/testgoofficial";
+const channelId = "-1003482290321";
 
 export function registerStartHandler(bot: Telegraf) {
-  const channelId = "-1003482290321";
-
   bot.start(async (ctx) => {
     if (!process.env.MINI_APP_URL) {
       throw new Error("MINI_APP_URL is not set");
@@ -67,12 +66,6 @@ export function registerStartHandler(bot: Telegraf) {
 }
 
 async function checkMembership(bot: Telegraf, userId: number): Promise<boolean> {
-  const channelId = process.env.TELEGRAM_CHANNEL_ID;
-
-  if (!channelId) {
-    throw new Error("TELEGRAM_CHANNEL_ID is not set");
-  }
-
   const member = await bot.telegram.getChatMember(channelId, userId);
 
   if (member.status === "creator" || member.status === "administrator" || member.status === "member") {
