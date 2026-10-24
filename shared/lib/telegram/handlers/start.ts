@@ -11,10 +11,6 @@ export function registerStartHandler(bot: Telegraf) {
       throw new Error("MINI_APP_URL is not set");
     }
 
-    if (!channelId) {
-      throw new Error("TELEGRAM_CHANNEL_ID is not set");
-    }
-
     await saveTelegramUser({
       telegramId: String(ctx.from.id),
       chatId: String(ctx.chat.id),
