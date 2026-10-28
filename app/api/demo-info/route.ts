@@ -1,8 +1,13 @@
+import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { generateDemoExcel } from "@/features/create-demo/lib/generate-demo-excel";
 import { createDemoInfoFormSchema } from "@/features/create-demo/model/schema";
 import { supabaseAdmin } from "@/shared/lib/supabase/admin";
 import { getSessionPayload } from "@/shared/lib/telegram/get-current-user";
+import { notifyDemoUser } from "@/shared/lib/telegram/notify-demo-user";
+import { notifyCustomer } from "@/shared/lib/telegram/notify-user";
+import { sendPersonalInfoToStaff } from "@/shared/lib/telegram/services/send-personal-info-to-staff";
 
 export async function POST(request: Request) {
   const session = await getSessionPayload();
@@ -32,6 +37,26 @@ export async function POST(request: Request) {
   }
 
   const values = parsed.data;
+
+  const excelBuffer = await generateDemoExcel(values);
+
+  const storagePath = `demo-info/${randomUUID()}.xlsx`;
+
+  const { error: uploadError } = await supabaseAdmin.storage.from("files").upload(storagePath, excelBuffer, {
+    contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    upsert: false,
+  });
+
+  if (uploadError) {
+    console.error("Excel upload failed:", uploadError);
+
+    return NextResponse.json({ error: "Excel faylni saqlashda xatolik yuz berdi." }, { status: 500 });
+  }
+
+  const {
+    data: { publicUrl },
+  } = supabaseAdmin.storage.from("files").getPublicUrl(storagePath);
+
   const { data, error } = await supabaseAdmin
     .from("demo_info")
     .insert({
@@ -79,6 +104,9 @@ export async function POST(request: Request) {
       graduate_with_outstanding_debts: values.graduateWithOutstandingDebts,
       foreign_language_proficiency: values.foreignLanguageProficiency,
       comment: values.comment,
+
+      // Files
+      excel_url: publicUrl,
     })
     .select("id")
     .single();
@@ -86,10 +114,13 @@ export async function POST(request: Request) {
   if (error) {
     console.error("Failed to create demo info:", error);
 
-    return NextResponse.json(
-      { error: "Ma'lumotlarni saqlashda xatolik yuz berdi.", message: error.message },
-      { status: 500 },
-    );
+    const { error: cleanupError } = await supabaseAdmin.storage.from("files").remove([storagePath]);
+
+    if (cleanupError) {
+      console.error("Excel cleanup failed:", cleanupError);
+    }
+
+    return NextResponse.json({ error: "Ma'lumotlarni saqlashda xatolik yuz berdi." }, { status: 500 });
   }
 
   // Notify staff after the record has been created.
@@ -102,14 +133,14 @@ export async function POST(request: Request) {
 
     if (userError) throw userError;
 
-    // await sendPersonalInfoToStaff(values, docBuffer, user?.username);
+    await sendPersonalInfoToStaff(values, excelBuffer, user?.username);
   } catch (error) {
     console.error("Staff Telegram notification failed:", error);
   }
 
   // Notify the customer after the record has been created.
   try {
-    // await notifyCustomer(session.userId, values);
+    await notifyDemoUser(session.userId);
     console.log("Demo info created:", data.id);
   } catch (error) {
     console.error("Telegram notification failed:", error);

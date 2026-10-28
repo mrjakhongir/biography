@@ -1,5 +1,6 @@
 import "server-only";
 
+import type { DemoInfoFormValues } from "@/features/create-demo/model/schema";
 import type { InfoFormValues } from "@/features/create-info/model/schema";
 import { createBot } from "@/shared/lib/telegram/bot";
 
@@ -7,7 +8,11 @@ function escapeHtml(value: string) {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-export async function sendPersonalInfoToStaff(values: InfoFormValues, docBuffer: Buffer, username?: string | null) {
+export async function sendPersonalInfoToStaff(
+  values: InfoFormValues | DemoInfoFormValues,
+  docBuffer: Buffer,
+  username?: string | null,
+) {
   const chatId = process.env.TELEGRAM_STAFF_GROUP_ID;
 
   if (!chatId) {
@@ -19,14 +24,12 @@ export async function sendPersonalInfoToStaff(values: InfoFormValues, docBuffer:
   const fullName = escapeHtml(values.fullname.trim());
   const faculty = escapeHtml(values.faculty.trim());
   const group = escapeHtml(values.group.trim());
-  const phone = escapeHtml(values.studentPhone.trim());
   const telegramUsername = username?.trim() ? `@${escapeHtml(username.replace(/^@/, ""))}` : "Mavjud emas";
 
   const caption = [
     `<b>F.I.Sh.:</b> ${fullName}`,
     `<b>Fakultet:</b> ${faculty}`,
     `<b>Guruh:</b> ${group}`,
-    `<b>Telefon:</b> ${phone}`,
     `<b>Telegram:</b> ${telegramUsername}`,
   ].join("\n");
 
