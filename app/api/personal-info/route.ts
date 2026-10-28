@@ -6,7 +6,7 @@ import { createInfoFormSchema } from "@/features/create-info/model/schema";
 import { supabaseAdmin } from "@/shared/lib/supabase/admin";
 import { getSessionPayload } from "@/shared/lib/telegram/get-current-user";
 import { notifyCustomer } from "@/shared/lib/telegram/notify-user";
-import { sendPersonalInfoToStaff } from "@/shared/lib/telegram/services/send-personal-info-to-staff";
+import { sendFormToStaff } from "@/shared/lib/telegram/services/send-personal-info-to-staff";
 
 const createPersonalInfoSchema = createInfoFormSchema.extend({
   hasJoinedParty: z.enum(["true", "false"]),
@@ -106,7 +106,12 @@ export async function POST(request: Request) {
 
     if (userError) throw userError;
 
-    await sendPersonalInfoToStaff(values, docBuffer, user?.username);
+    await sendFormToStaff({
+      values,
+      buffer: docBuffer,
+      fileType: "docx",
+      username: user?.username,
+    });
   } catch (error) {
     console.error("Staff Telegram notification failed:", error);
   }

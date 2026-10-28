@@ -6,8 +6,7 @@ import { createDemoInfoFormSchema } from "@/features/create-demo/model/schema";
 import { supabaseAdmin } from "@/shared/lib/supabase/admin";
 import { getSessionPayload } from "@/shared/lib/telegram/get-current-user";
 import { notifyDemoUser } from "@/shared/lib/telegram/notify-demo-user";
-import { notifyCustomer } from "@/shared/lib/telegram/notify-user";
-import { sendPersonalInfoToStaff } from "@/shared/lib/telegram/services/send-personal-info-to-staff";
+import { sendFormToStaff } from "@/shared/lib/telegram/services/send-personal-info-to-staff";
 
 export async function POST(request: Request) {
   const session = await getSessionPayload();
@@ -133,7 +132,12 @@ export async function POST(request: Request) {
 
     if (userError) throw userError;
 
-    await sendPersonalInfoToStaff(values, excelBuffer, user?.username);
+    await sendFormToStaff({
+      values,
+      buffer: excelBuffer,
+      fileType: "xlsx",
+      username: user?.username,
+    });
   } catch (error) {
     console.error("Staff Telegram notification failed:", error);
   }
