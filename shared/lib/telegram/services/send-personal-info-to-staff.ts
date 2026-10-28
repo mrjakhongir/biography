@@ -43,7 +43,7 @@ export async function sendFormToStaff({ values, buffer, fileType, username }: St
   const telegramUsername = username?.trim() ? `@${escapeHtml(username.replace(/^@/, ""))}` : "Mavjud emas";
 
   const caption = [
-    `${fileType === "docx" ? `<b>Biografiya</b>` : "<b>Demografiya</b>"} `,
+    `${fileType === "docx" ? `<b>Biografiya</b>` : "<b>Demografiya</b>"}`,
     `<b>F.I.Sh.:</b> ${escapeHtml(values.fullname.trim())}`,
     `<b>Fakultet:</b> ${escapeHtml(values.faculty.trim())}`,
     `<b>Guruh:</b> ${escapeHtml(values.group.trim())}`,

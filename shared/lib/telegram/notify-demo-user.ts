@@ -12,9 +12,8 @@ export async function notifyDemoUser(userId: string) {
 
   await bot.telegram.sendMessage(
     user.chat_id,
-    `Demografik ma'lumotlaringiz qabul qilindi.\n` +
-      `📄 To‘liq faylni olish uchun <a href="https://t.me/Oxu0811">5-Bino</a> ga bog‘laning.\n\n` +
-      `📄 To‘liq faylni olish uchun <a href="https://t.me/Medoxu5">Asosiy bino</a> ga bog‘laning`,
+    `Demografik ma'lumotlaringiz qabul qilindi.\n\n` +
+      `To‘liq faylni olish uchun <a href="https://t.me/Oxu0811">5-Bino</a> yoki <a href="https://t.me/Medoxu5">Asosiy bino</a> ga bog‘laning.`,
     {
       parse_mode: "HTML",
     },
