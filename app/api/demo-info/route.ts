@@ -39,7 +39,7 @@ export async function POST(request: Request) {
 
   const excelBuffer = await generateDemoExcel(values);
 
-  const storagePath = `demo-info/${randomUUID()}.xlsx`;
+  const storagePath = `personal-info/${randomUUID()}.xlsx`;
 
   const { error: uploadError } = await supabaseAdmin.storage.from("files").upload(storagePath, excelBuffer, {
     contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",

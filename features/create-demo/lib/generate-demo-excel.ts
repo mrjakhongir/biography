@@ -5,11 +5,11 @@ import type { DemoInfoFormValues } from "../model/schema";
 export async function generateDemoExcel(values: DemoInfoFormValues): Promise<Buffer> {
   const workbook = new ExcelJS.Workbook();
 
-  const templatePath = path.join(process.cwd(), "src/features/create-demo/model/templates/demo-info-template.xlsx");
+  const templatePath = path.join(process.cwd(), "public", "templates", "demo-template.xlsx");
 
   await workbook.xlsx.readFile(templatePath);
 
-  const worksheet = workbook.getWorksheet("Ma'lumotlar");
+  const worksheet = workbook.getWorksheet("Umumiy");
 
   if (!worksheet) {
     throw new Error("Excel shablonida 'Ma'lumotlar' varag‘i topilmadi.");
