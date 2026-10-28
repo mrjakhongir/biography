@@ -1,12 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import WebApp from "@twa-dev/sdk";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, ChevronLeft, ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { type FieldPath, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { slideVariants } from "@/shared/lib/slide-variants";
 import { Button } from "@/shared/ui/button";
 import { BottomActionWrapper, SectionWrapper, Wrapper } from "@/shared/ui/custom";
 import { Spinner } from "@/shared/ui/spinner";
@@ -41,24 +42,10 @@ const STEP_FIELDS: FieldPath<InfoFormValues>[][] = [
   ["studentPhone", "fatherPhone", "motherPhone"],
 ];
 
-const slideVariants = {
-  enter: (direction: number) => ({
-    x: direction > 0 ? 40 : -40,
-    opacity: 0,
-  }),
-  center: {
-    x: 0,
-    opacity: 1,
-  },
-  exit: (direction: number) => ({
-    x: direction > 0 ? -40 : 40,
-    opacity: 0,
-  }),
-};
-
 export const CreatePersonalInfo = () => {
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState(1);
+  const router = useRouter();
 
   const { mutateAsync: createUserInfo } = useCreatePersonalInfo();
 
@@ -78,7 +65,7 @@ export const CreatePersonalInfo = () => {
       toast.success("Ma’lumotlar muvaffaqiyatli saqlandi.");
       form.reset();
       setStep(0);
-      WebApp.close();
+      router.push("/");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Ma’lumotlarni saqlashda xatolik yuz berdi.");
     }
@@ -88,7 +75,6 @@ export const CreatePersonalInfo = () => {
     const isValid = await form.trigger(STEP_FIELDS[step]);
 
     const stepError = STEP_FIELDS[step].map((field) => form.getFieldState(field).error?.message).find(Boolean);
-    console.log(form.formState.errors);
     if (!isValid) {
       toast.error(stepError || "Ma'lumotlarni to'liq kiriting");
       return;
@@ -122,7 +108,14 @@ export const CreatePersonalInfo = () => {
         <Wrapper>
           {/* Step navigator */}
           <div>
-            <h2 className="text-xl font-semibold text-center mb-4 text-slate-800">{STEPS[step].title}</h2>
+            <div className="flex items-center mb-4">
+              <button type="button" onClick={() => router.back()}>
+                <ChevronLeft />
+              </button>
+              <h2 className="text-xl font-semibold text-center text-slate-800 self-center flex-1">
+                {STEPS[step].title}
+              </h2>
+            </div>
 
             <div className="flex items-center">
               {STEPS.map((item, index) => {
@@ -199,6 +192,7 @@ export const CreatePersonalInfo = () => {
                 x: { type: "spring", stiffness: 300, damping: 30 },
                 opacity: { duration: 0.2 },
               }}
+              className="pb-5"
             >
               {step === 0 && <PersonalInfo form={form} />}
 

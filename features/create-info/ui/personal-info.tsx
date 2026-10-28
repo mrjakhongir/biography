@@ -1,10 +1,10 @@
 import { Controller, type UseFormReturn } from "react-hook-form";
+import type { InfoFormValues } from "@/features/create-info/model/schema";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { SectionWrapper, Wrapper } from "@/shared/ui/custom";
 import DateInput from "@/shared/ui/custom/date-input";
 import { Field, FieldGroup, FieldLabel } from "@/shared/ui/field";
 import { Input } from "@/shared/ui/input";
-import type { InfoFormValues } from "../model/schema";
 
 type Props = {
   form: UseFormReturn<InfoFormValues>;
