@@ -3,6 +3,7 @@ import { Controller, type UseFormReturn } from "react-hook-form";
 import { Button } from "@/shared/ui/button";
 import { SectionWrapper, Wrapper } from "@/shared/ui/custom";
 import { FieldGroup } from "@/shared/ui/field";
+import { Input } from "@/shared/ui/input";
 import { Spinner } from "@/shared/ui/spinner";
 import { Switch } from "@/shared/ui/switch";
 import type { DemoInfoFormValues } from "../model/schema";
@@ -52,24 +53,16 @@ const ExtraInfo: React.FC<Props> = ({ form }) => {
     <div>
       <SectionWrapper>
         <Wrapper>
-          <FieldGroup className="gap-1">
+          <FieldGroup className="gap-4">
             {employmentFields.map(({ name, label }) => (
               <Controller
                 key={name}
                 name={name}
                 control={form.control}
-                defaultValue={false}
                 render={({ field }) => (
-                  <div className="flex items-center justify-between gap-4 border-b py-3">
-                    <span className="text-sm font-medium">{label}</span>
-
-                    <div className="flex shrink-0 items-center gap-3">
-                      <span className="text-sm">Yo&apos;q</span>
-
-                      <Switch checked={field.value ?? false} onCheckedChange={field.onChange} />
-
-                      <span className="text-sm">Ha</span>
-                    </div>
+                  <div className="flex flex-col justify-between gap-2">
+                    <span className="text-sm font-medium text-slate-700">{label}</span>
+                    <Input {...field} />
                   </div>
                 )}
               />
@@ -81,7 +74,7 @@ const ExtraInfo: React.FC<Props> = ({ form }) => {
       <Wrapper className="mt-5">
         <Button
           type="submit"
-          className="h-12 flex-1 text-base w-full"
+          className="h-12 flex-1 text-base w-full shadow-lg"
           disabled={form.formState.isSubmitting || !form.formState.isValid}
         >
           {form.formState.isSubmitting ? <Spinner /> : "Yaratish"}
